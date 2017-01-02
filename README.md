@@ -1,5 +1,7 @@
 # GMO-PG
 
+[![wercker status](https://app.wercker.com/status/1eb7ae8fcece997421923ffe8dc46ec7/s/master "wercker status")](https://app.wercker.com/project/byKey/1eb7ae8fcece997421923ffe8dc46ec7)
+
 The GMO-PG Ruby bindings provide a simple SDK for convenient access to the GMO-PG Multi-Payment API from application written in the Ruby language.
 
 ## Installation
