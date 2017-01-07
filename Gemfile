@@ -12,4 +12,5 @@ group :development do
   gem 'guard'
   gem 'guard-rspec'
   gem 'fuubar'
+  gem 'yard'
 end
