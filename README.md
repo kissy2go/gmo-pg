@@ -22,11 +22,37 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+For example, to check card availability, like this:
+
+```ruby
+GMO::PG.base_url = 'https://...' # required
+
+GMO::PG.connect do |dispatcher|
+  dispatcher #=> #<GMO::PG::Dispatcher>
+
+  credential = dispatcher.dispatch_entry_tran(
+    shop_id:   YOUR_SHOP_ID,
+    shop_pass: YOUR_SHOP_PASS,
+    order_id:  order_id,
+    job_cd:    :CHECK,
+  )
+  credential #=> #<GMO::PG::EntryTran::Response>
+
+  result = dispatcher.dispatch_entry_tran(
+    access_id:     credential.access_id,
+    access_pass:   credential.access_pass,
+    order_id:      order_id,
+    card_no:       '...',
+    expire:        '...',
+    security_code: '...',
+  )
+  result #=> #<GMO::PG::ExecTran::Response>
+end
+```
 
 ## Development
 
-After checking out the repo, install dependencies via bundler. Then, run `rake spec` to run the tests. You can also run `bin/gmo-console` for an interactive prompt that will allow you to experiment.
+After checking out the repo, install dependencies via bundler. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 ## Contributing
 
