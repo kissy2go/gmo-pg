@@ -49,6 +49,21 @@ RSpec.describe GMO::PG::Payload do
     end
   end
 
+  describe '#to_hash' do
+    it 'returns hash' do
+      payload = ClassInheritedPayload.new(
+        ruby_attr_1: 'value1',
+        GMOParam2:   'value2',
+        UndefParam:  'value3',
+      )
+      expect(payload.to_hash).to eq(
+        ruby_attr_1: 'value1',
+        ruby_attr_2: 'value2',
+        UndefParam:  'value3',
+      )
+    end
+  end
+
   describe '#inspect' do
     it 'returns described string' do
       payload = ClassInheritedPayload.new(

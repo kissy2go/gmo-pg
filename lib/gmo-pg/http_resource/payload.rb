@@ -30,6 +30,12 @@ module GMO
         @attributes.dup.freeze
       end
 
+      def to_hash
+        @attributes.each_with_object({}) do |(param_name, value), hash|
+          hash[self.class.detect_attribute_name(param_name)] = value
+        end
+      end
+
       def inspect
         '#<%s:%014x "%s">' % [
           self.class.name,
