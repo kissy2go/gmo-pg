@@ -6,7 +6,6 @@ require 'gmo-pg/dispatcher'
 
 module GMO
   module PG
-    @base_url     = 'https://p01.mul-pay.jp'
     @open_timeout = 60
     @read_timeout = 90
 
