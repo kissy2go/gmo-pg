@@ -1,7 +1,10 @@
+require 'gmo-pg/dispatcher/shorthands'
+
 module GMO
   module PG
     class Dispatcher
       extend Forwardable
+      include Shorthands
 
       def_delegators :@http,
         :open_timeout, :open_timeout=,

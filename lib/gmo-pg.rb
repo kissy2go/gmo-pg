@@ -1,8 +1,8 @@
 require 'gmo-pg/version'
 
-require 'gmo-pg/dispatcher'
 require 'gmo-pg/http_resource'
 require 'gmo-pg/api_endpoint'
+require 'gmo-pg/dispatcher'
 
 module GMO
   module PG
