@@ -6,14 +6,18 @@ module GMO
       extend Forwardable
       include Shorthands
 
+      attr_reader :base_url
       attr_accessor :raise_on_api_error
 
       def_delegators :@http,
         :open_timeout, :open_timeout=,
-        :read_timeout, :read_timeout=
+        :read_timeout, :read_timeout=,
+        :proxy_address, :proxy_port, :proxy_user, :proxy_pass
+      def_delegator :@http, :started?, :connected?
 
       def initialize(base_url)
-        url = URI.parse(base_url)
+        @base_url = base_url
+        url = URI.parse(@base_url)
         @http = Net::HTTP.new(url.host, url.port)
         @http.use_ssl = true if url.scheme == 'https'
         yield self if block_given?
