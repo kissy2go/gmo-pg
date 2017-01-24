@@ -10,8 +10,6 @@ module GMO
       end
 
       class Response < GMO::PG::GenericResponse
-        include ErrCodeAndErrInfo
-
         bind_attribute :MemberID, :member_id
       end
     end

@@ -16,8 +16,6 @@ module GMO
       end
 
       class Response < GMO::PG::GenericResponse
-        include ErrCodeAndErrInfo
-
         bind_attribute :AccessID,   :access_id
         bind_attribute :AccessPass, :access_pass
       end

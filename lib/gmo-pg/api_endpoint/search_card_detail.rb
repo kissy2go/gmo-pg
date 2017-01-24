@@ -16,8 +16,6 @@ module GMO
       end
 
       class Response < GMO::PG::GenericResponse
-        include ErrCodeAndErrInfo
-
         bind_attribute :CardNo,                 :card_no
         bind_attribute :Brand,                  :brand
         bind_attribute :DomesticFlag,           :domestic_flag

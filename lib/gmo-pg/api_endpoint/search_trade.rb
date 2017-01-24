@@ -10,8 +10,6 @@ module GMO
       end
 
       class Response < GMO::PG::GenericResponse
-        include ErrCodeAndErrInfo
-
         bind_attribute :OrderID,      :order_id
         bind_attribute :Status,       :status
         bind_attribute :ProcessDate,  :process_date

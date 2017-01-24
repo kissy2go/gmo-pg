@@ -9,8 +9,6 @@ module GMO
       end
 
       class Response < GMO::PG::GenericResponse
-        include ErrCodeAndErrInfo
-
         bind_attribute :OrderID,      :order_id
         bind_attribute :Forward,      :forward
         bind_attribute :Method,       :method

@@ -12,8 +12,6 @@ module GMO
       end
 
       class Response < GMO::PG::GenericResponse
-        include ErrCodeAndErrInfo
-
         bind_attribute :CardSeq,                :card_seq
         bind_attribute :DefaultFlag,            :default_flag
         bind_attribute :CardName,               :card_name
