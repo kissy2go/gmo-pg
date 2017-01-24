@@ -7,19 +7,14 @@ describe GMO::PG::Dispatcher::Shorthands do
     describe "#dispatch_#{name}" do
       subject { dispatcher.send(:"dispatch_#{name}", attributes) }
 
-      let(:attributes) { {} }
+      let(:attributes) { { Request: 'Payload'} }
 
       it 'dispatches request, and returns response' do
-        request_mock = spy(endpoint::Request.to_s)
+        stub_request(:post, dispatcher.base_url + endpoint.endpoint_path)
+          .with(body: 'Request=Payload').and_return(status: 200, body: 'Response=Payload')
 
-        expect(endpoint::Request).to receive(:new)
-          .with(attributes)
-          .and_return(request_mock)
-        expect(dispatcher).to receive(:dispatch)
-          .with(request_mock)
-          .and_return(:ok)
-
-        expect(subject).to eq :ok
+        expect(subject).to be_instance_of endpoint::Response
+        expect(subject[:Response]).to eq 'Payload'
       end
     end
   end

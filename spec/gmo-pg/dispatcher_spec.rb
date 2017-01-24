@@ -26,16 +26,12 @@ RSpec.describe GMO::PG::Dispatcher do
 
     subject do
       dispatcher.use_proxy address: address, port: port, user: user, pass: pass
-      dispatcher.instance_variable_get(:@http)
     end
 
-    it 'configures proxy' do
-      http = subject
-      expect(http.proxy_address).to eq address
-      expect(http.proxy_port).to eq port
-      expect(http.proxy_user).to eq user
-      expect(http.proxy_pass).to eq pass
-    end
+    it { expect { subject }.to change(dispatcher, :proxy_address).to address }
+    it { expect { subject }.to change(dispatcher, :proxy_port).to port }
+    it { expect { subject }.to change(dispatcher, :proxy_user).to user }
+    it { expect { subject }.to change(dispatcher, :proxy_pass).to pass }
   end
 
   describe '#connect' do
@@ -48,115 +44,74 @@ RSpec.describe GMO::PG::Dispatcher do
   describe '#dispatch' do
     subject { dispatcher.dispatch(request) }
 
-    class DummyRequest
-      attr_reader :path, :payload
+    module Dummy
+      extend GMO::PG::APIEndpoint
 
-      def self.corresponding_response_class
-        DummyResponse
+      class Request < GMO::PG::GenericRequest
+        bind_attribute :Type, :type
       end
 
-      def initialize(path, payload)
-        @path    = path
-        @payload = payload
-      end
-    end
-
-    class DummyResponse
-      def self.new(payload)
-        payload
+      class Response < GMO::PG::GenericResponse
+        bind_attribute :Type, :type
       end
     end
 
-    let(:request)  { DummyRequest.new(path, req_body) }
-    let(:path)     { '/path/to/endpoint' }
-    let(:req_body) { 'Key=Value' }
-    let(:res_body) { 'Response=OK' }
+    let(:request) { Dummy::Request.new(type: 'request') }
 
-    before do
-      allow(GMO::PG::Payload).to receive(:encode).with(req_body).and_return(req_body)
-      allow(GMO::PG::Payload).to receive(:decode).with(res_body).and_return(res_body)
-    end
-
-    context 'when received 2xx response' do
+    context 'when received HTTP succeess response' do
       before do
-        stub_request(:post, url + path)
-          .with(body: req_body)
-          .and_return(status: 200, body: res_body)
+        stub_request(:post, dispatcher.base_url + request.path)
+          .with(body: GMO::PG::Payload.encode(request.payload))
+          .and_return(status: 200, body: GMO::PG::Payload.encode(response.payload))
       end
 
-      it 'returns response' do
-        expect(subject).to eq res_body
-      end
-
-      context 'when API error occurred' do
-        before do
-          allow(dispatcher).to receive(:handle_api_error)
-            .with(request, res_body)
-            .and_raise('OK')
+      context 'when response has no error' do
+        let(:response) { Dummy::Response.new(type: 'response') }
+        it 'returns response' do
+          expect(subject).to be_instance_of Dummy::Response
+          expect(subject).not_to be_error
+          expect(subject.payload).to eq response.payload
         end
+      end
 
-        context 'when :raise_on_api_error option is ON' do
+      context 'when response has error' do
+        let(:response) { Dummy::Response.new(err_code: 'E00|E01', err_info: 'E00000000|E01010001') }
+
+        context 'when :raise_on_api_error option is truthy value' do
           before { dispatcher.raise_on_api_error = true }
-          it 'raises first API error' do
-            expect { subject }.to raise_error 'OK'
+          it 'raises first error' do
+            expect { subject }.to raise_error GMO::PG::Error
           end
         end
 
-        context 'when :raise_on_api_error option is OFF' do
+        context 'when :raise_on_api_error option is falsey value' do
           before { dispatcher.raise_on_api_error = false }
           it 'returns response' do
-            expect(subject).to eq res_body
+            expect { subject }.not_to raise_error
+            expect(subject).to be_instance_of Dummy::Response
+            expect(subject).to be_error
+            expect(subject.payload).to eq response.payload
           end
         end
       end
     end
 
-    context 'when received 3xx response' do
-      it 'raises HTTP error' do
-        stub_request(:post, url + path)
-          .with(body: req_body)
-          .and_return(status: 300)
-        expect(GMO::PG::Error).to receive(:from_http_error)
-          .with(kind_of(Net::HTTPRetriableError))
-          .and_return(StandardError.new('OK'))
-        expect { subject }.to raise_error('OK')
-      end
-    end
-
-    context 'when received 4xx response' do
-      it 'raises HTTP error' do
-        stub_request(:post, url + path)
-          .with(body: req_body)
-          .and_return(status: 404)
-        expect(GMO::PG::Error).to receive(:from_http_error)
-          .with(kind_of(Net::HTTPServerException))
-          .and_return(StandardError.new('OK'))
-        expect { subject }.to raise_error('OK')
-      end
-    end
-
-    context 'when received 5xx response' do
-      it 'raises HTTP error' do
-        stub_request(:post, url + path)
-          .with(body: req_body)
+    context 'when HTTP error occurred' do
+      before do
+        stub_request(:post, dispatcher.base_url + request.path)
+          .with(body: GMO::PG::Payload.encode(request.payload))
           .and_return(status: 500)
-        expect(GMO::PG::Error).to receive(:from_http_error)
-          .with(kind_of(Net::HTTPFatalError))
-          .and_return(StandardError.new('OK'))
-        expect { subject }.to raise_error('OK')
       end
+      it { expect { subject }.to raise_error GMO::PG::HTTPError }
     end
 
-    context 'when timeout occurred' do
-      it 'raises HTTP error' do
-        stub_request(:post, url + path)
-          .with(body: req_body)
+    context 'when timeout error occurred' do
+      before do
+        stub_request(:post, dispatcher.base_url + request.path)
+          .with(body: GMO::PG::Payload.encode(request.payload))
           .to_timeout
-        expect(GMO::PG::Error).to receive(:from_http_error)
-          .with(kind_of(Timeout::Error))
-          .and_return(StandardError.new('OK'))
-        expect { subject }.to raise_error('OK')
       end
+      it { expect { subject }.to raise_error GMO::PG::ConnectionError }
     end
   end
 end

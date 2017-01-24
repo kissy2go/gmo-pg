@@ -3,19 +3,13 @@ require 'spec_helper'
 RSpec.describe GMO::PG do
   describe '::connect' do
     it 'connects remote server' do
-      dispatcher_mock = spy('GMO::PG::Dispatcher')
-
-      expect(GMO::PG::Dispatcher).to receive(:new)
-        .with(GMO::PG::base_url)
-        .and_yield(dispatcher_mock)
-        .and_return(dispatcher_mock)
-
-      expect(dispatcher_mock).to receive(:open_timeout=).with(GMO::PG.open_timeout)
-      expect(dispatcher_mock).to receive(:read_timeout=).with(GMO::PG.read_timeout)
-      expect(dispatcher_mock).to receive(:raise_on_api_error=).with(GMO::PG.raise_on_api_error)
-      expect(dispatcher_mock).to receive(:connect).and_yield(dispatcher_mock)
-
-      expect { |b| GMO::PG.connect(&b) }.to yield_successive_args dispatcher_mock
+      GMO::PG.connect do |dispatcher|
+        expect(dispatcher).to be_connected
+        expect(dispatcher.base_url).to eq GMO::PG.base_url
+        expect(dispatcher.open_timeout).to eq GMO::PG.open_timeout
+        expect(dispatcher.read_timeout).to eq GMO::PG.read_timeout
+        expect(dispatcher.raise_on_api_error).to eq GMO::PG.raise_on_api_error
+      end
     end
   end
 end

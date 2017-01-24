@@ -7,6 +7,8 @@ Dir.glob('spec/helper/**/*') { |f| load f }
 Dir.glob("spec/acceptance/steps/**/*_steps.rb") { |f| load f }
 
 RSpec.configure do |c|
+  GMO::PG.base_url = 'https://example.com'
+
   c.before type: :api_endpoint do
     c.include APIEndpointExamples
   end
