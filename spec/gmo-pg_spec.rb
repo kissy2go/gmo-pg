@@ -12,6 +12,7 @@ RSpec.describe GMO::PG do
 
       expect(dispatcher_mock).to receive(:open_timeout=).with(GMO::PG.open_timeout)
       expect(dispatcher_mock).to receive(:read_timeout=).with(GMO::PG.read_timeout)
+      expect(dispatcher_mock).to receive(:raise_on_api_error=).with(GMO::PG.raise_on_api_error)
       expect(dispatcher_mock).to receive(:connect).and_yield(dispatcher_mock)
 
       expect { |b| GMO::PG.connect(&b) }.to yield_successive_args dispatcher_mock
