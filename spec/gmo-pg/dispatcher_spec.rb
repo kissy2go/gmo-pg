@@ -78,47 +78,84 @@ RSpec.describe GMO::PG::Dispatcher do
     end
 
     context 'when received 2xx response' do
-      it 'returns response' do
+      before do
         stub_request(:post, url + path)
           .with(body: req_body)
           .and_return(status: 200, body: res_body)
+      end
+
+      it 'returns response' do
         expect(subject).to eq res_body
+      end
+
+      context 'when API error occurred' do
+        before do
+          allow(dispatcher).to receive(:handle_api_error)
+            .with(request, res_body)
+            .and_raise('OK')
+        end
+
+        context 'when :raise_on_api_error option is ON' do
+          before { dispatcher.raise_on_api_error = true }
+          it 'raises first API error' do
+            expect { subject }.to raise_error 'OK'
+          end
+        end
+
+        context 'when :raise_on_api_error option is OFF' do
+          before { dispatcher.raise_on_api_error = false }
+          it 'returns response' do
+            expect(subject).to eq res_body
+          end
+        end
       end
     end
 
     context 'when received 3xx response' do
-      it 'raises Net::HTTPRetriableError' do
+      it 'raises HTTP error' do
         stub_request(:post, url + path)
           .with(body: req_body)
           .and_return(status: 300)
-        expect { subject }.to raise_error Net::HTTPRetriableError
+        expect(GMO::PG::Error).to receive(:from_http_error)
+          .with(kind_of(Net::HTTPRetriableError))
+          .and_return(StandardError.new('OK'))
+        expect { subject }.to raise_error('OK')
       end
     end
 
     context 'when received 4xx response' do
-      it 'raises Net::HTTPServerException' do
+      it 'raises HTTP error' do
         stub_request(:post, url + path)
           .with(body: req_body)
           .and_return(status: 404)
-        expect { subject }.to raise_error Net::HTTPServerException
+        expect(GMO::PG::Error).to receive(:from_http_error)
+          .with(kind_of(Net::HTTPServerException))
+          .and_return(StandardError.new('OK'))
+        expect { subject }.to raise_error('OK')
       end
     end
 
     context 'when received 5xx response' do
-      it 'raises Net::HTTPFatalError' do
+      it 'raises HTTP error' do
         stub_request(:post, url + path)
           .with(body: req_body)
           .and_return(status: 500)
-        expect { subject }.to raise_error Net::HTTPFatalError
+        expect(GMO::PG::Error).to receive(:from_http_error)
+          .with(kind_of(Net::HTTPFatalError))
+          .and_return(StandardError.new('OK'))
+        expect { subject }.to raise_error('OK')
       end
     end
 
     context 'when timeout occurred' do
-      it 'raises Timeout::Error' do
+      it 'raises HTTP error' do
         stub_request(:post, url + path)
           .with(body: req_body)
           .to_timeout
-        expect { subject }.to raise_error Timeout::Error
+        expect(GMO::PG::Error).to receive(:from_http_error)
+          .with(kind_of(Timeout::Error))
+          .and_return(StandardError.new('OK'))
+        expect { subject }.to raise_error('OK')
       end
     end
   end

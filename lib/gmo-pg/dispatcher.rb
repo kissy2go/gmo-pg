@@ -6,6 +6,8 @@ module GMO
       extend Forwardable
       include Shorthands
 
+      attr_accessor :raise_on_api_error
+
       def_delegators :@http,
         :open_timeout, :open_timeout=,
         :read_timeout, :read_timeout=
@@ -27,19 +29,45 @@ module GMO
       end
 
       def connect
-        @http.start { yield self if block_given? }
+        handle_http_error do
+          @http.start { yield self if block_given? }
+        end
       end
 
       def dispatch(request)
         req = Net::HTTP::Post.new(request.path)
         req.body = GMO::PG::Payload.encode(request.payload)
-        res = @http.request(req)
-        case res
-        when Net::HTTPSuccess
-          payload = GMO::PG::Payload.decode(res.body)
-          request.class.corresponding_response_class.new(payload)
-        else
-          res.value
+
+        handle_http_error do
+          res = @http.request(req)
+          case res
+          when Net::HTTPSuccess
+            payload = GMO::PG::Payload.decode(res.body)
+            response = request.class.corresponding_response_class.new(payload)
+            handle_api_error request, response if @raise_on_api_error
+            response
+          else
+            res.value # raise Net::XxxError
+          end
+        end
+      end
+
+      private
+
+      def handle_http_error
+        begin
+          yield if block_given?
+        rescue => e
+          raise GMO::PG::Error.from_http_error(e)
+        end
+      end
+
+      def handle_api_error(request, response)
+        return response unless response.error?
+
+        raise response.errors.first.to_error.tap do |e|
+          e.request  = request
+          e.response = response
         end
       end
     end
