@@ -4,6 +4,12 @@ RSpec.describe GMO::PG::Payload do
   class ClassInheritedPayload < GMO::PG::Payload
     bind_attribute :GMOParam1, :ruby_attr_1
     bind_attribute :GMOParam2, :ruby_attr_2
+    bind_attribute :IntegerParam,    :integer_attr,     typecast: :integer
+    bind_attribute :EpochTimeParam,  :epoch_time_attr,  typecast: :epoch_time
+    bind_attribute :CustomTypeParam, :custom_type_attr, typecast: {
+      to_attribute: -> (value) { "called #to_attribute with #{value}" },
+      to_payload:   -> (value) { "called #to_payload with #{value}" },
+    }
   end
 
   describe '::encode' do
@@ -40,26 +46,41 @@ RSpec.describe GMO::PG::Payload do
   describe '#payload' do
     it 'returns frozen hash' do
       payload = ClassInheritedPayload.new(
-        ruby_attr_1: 'value1',
-        UndefParam:  'value2',
+        ruby_attr_1:      'value1',
+        GMOParam2:        'value2',
+        integer_attr:     123.456,
+        epoch_time_attr:  Time.new(2017, 1, 2, 12, 34, 56).to_i.to_s,
+        custom_type_attr: '123',
+        UndefParam:       'value3',
       )
-      expect(payload.payload).to be_frozen
-      expect(payload.payload).to eq payload.instance_variable_get(:@attributes)
-      expect(payload.payload).not_to be payload.instance_variable_get(:@attributes)
+      expect(payload.payload).to eq(
+        GMOParam1:       'value1',
+        GMOParam2:       'value2',
+        IntegerParam:    '123',
+        EpochTimeParam:  '20170102123456',
+        CustomTypeParam: 'called #to_payload with 123',
+        UndefParam:      'value3',
+      )
     end
   end
 
   describe '#to_hash' do
     it 'returns hash' do
       payload = ClassInheritedPayload.new(
-        ruby_attr_1: 'value1',
-        GMOParam2:   'value2',
-        UndefParam:  'value3',
+        ruby_attr_1:      'value1',
+        GMOParam2:        'value2',
+        integer_attr:     123.456,
+        epoch_time_attr:  Time.new(2017, 1, 2, 12, 34, 56).to_i.to_s,
+        custom_type_attr: '123',
+        UndefParam:       'value3',
       )
       expect(payload.to_hash).to eq(
-        ruby_attr_1: 'value1',
-        ruby_attr_2: 'value2',
-        UndefParam:  'value3',
+        ruby_attr_1:      'value1',
+        ruby_attr_2:      'value2',
+        integer_attr:     123,
+        epoch_time_attr:  Time.new(2017, 1, 2, 12, 34, 56).to_i,
+        custom_type_attr: 'called #to_attribute with 123',
+        UndefParam:       'value3',
       )
     end
   end

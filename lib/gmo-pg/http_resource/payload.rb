@@ -19,22 +19,25 @@ module GMO
       end
 
       def []=(name, value)
-        param_name = self.class.detect_param_name(name)
-        @attributes[param_name] = value
+        param_name, _, options = self.class.detect_bind_attribute(name)
+        @attributes[param_name] = Typecast.detect(options[:typecast]).new(value)
       end
 
       def [](name)
         param_name = self.class.detect_param_name(name)
-        @attributes[param_name]
+        return unless @attributes.key?(param_name)
+        @attributes[param_name].to_attribute
       end
 
       def payload
-        @attributes.dup.freeze
+        @attributes.each_with_object({}) do |(param_name, value), payload|
+          payload[param_name] = value.to_payload
+        end
       end
 
       def to_hash
         @attributes.each_with_object({}) do |(param_name, value), hash|
-          hash[self.class.detect_attribute_name(param_name)] = value
+          hash[self.class.detect_attribute_name(param_name)] = value.to_attribute
         end
       end
 
@@ -54,27 +57,27 @@ module GMO
         end
       end
 
-      def self.bind_attribute(param_name, attr_name)
-        @bind_attributes << [param_name, attr_name]
+      def self.bind_attribute(param_name, attr_name, typecast: nil)
+        @bind_attributes << [param_name, attr_name, { typecast: typecast }]
 
         define_method(:"#{attr_name}")  { self[attr_name] }
         define_method(:"#{attr_name}=") { |value| self[attr_name] = value }
       end
 
-      def self.detect_attribute_name(name)
+      def self.detect_bind_attribute(name)
         name = name.respond_to?(:to_sym) ? name.to_sym : name
-        @bind_attributes.each do |(param_name, attr_name)|
-          return attr_name if name == param_name || name == attr_name
+        @bind_attributes.each do |(param_name, attr_name, options)|
+          return [param_name, attr_name, options] if name == param_name || name == attr_name
         end
-        name
+        [name, name, {}]
+      end
+
+      def self.detect_attribute_name(name)
+        detect_bind_attribute(name)[1]
       end
 
       def self.detect_param_name(name)
-        name = name.respond_to?(:to_sym) ? name.to_sym : name
-        @bind_attributes.each do |(param_name, attr_name)|
-          return param_name if name == param_name || name == attr_name
-        end
-        name
+        detect_bind_attribute(name)[0]
       end
     end
   end
