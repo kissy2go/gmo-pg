@@ -1,5 +1,5 @@
 box: ruby
-ruby: 2.1
+ruby: 2.2
 build:
   steps:
     - bundle-install

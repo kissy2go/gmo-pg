@@ -1,0 +1,69 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://pt01.mul-pay.jp/payment/EntryTran.idPass
+    body:
+      encoding: US-ASCII
+      string: ShopID=<ShopID>&ShopPass=<ShopPass>&OrderID=OID-ugtKmDC1L376IenlBRiV9fG&JobCd=CHECK
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Mon, 23 Jan 2017 08:50:48 GMT
+      Content-Type:
+      - text/plain;charset=Windows-31J
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: AccessID=bdee93358fd438e188ea9d1580db6510&AccessPass=28c9b2cbf551a75b17146a2ba94bbab1
+    http_version:
+  recorded_at: Mon, 23 Jan 2017 08:50:48 GMT
+- request:
+    method: post
+    uri: https://pt01.mul-pay.jp/payment/ExecTran.idPass
+    body:
+      encoding: US-ASCII
+      string: AccessID=bdee93358fd438e188ea9d1580db6510&AccessPass=28c9b2cbf551a75b17146a2ba94bbab1&OrderID=OID-ugtKmDC1L376IenlBRiV9fG&CardNo=4111111111111111&Expire=1901&SecurityCode=123
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Mon, 23 Jan 2017 08:50:51 GMT
+      Content-Type:
+      - text/plain;charset=Windows-31J
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: ACS=0&OrderID=OID-ugtKmDC1L376IenlBRiV9fG&Forward=2a99662&Method=&PayTimes=&Approve=1312848&TranID=1701231750111111111111879454&TranDate=20170123175051&CheckString=f6434164fbf80a5b67a50fb99f284976
+    http_version:
+  recorded_at: Mon, 23 Jan 2017 08:50:50 GMT
+recorded_with: VCR 3.0.3
