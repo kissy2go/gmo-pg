@@ -18,6 +18,8 @@ RSpec.describe GMO::PG::SaveCard::Request, type: :request do
   it_behaves_like 'a Payload', :HolderName,  :holder_name
   it_behaves_like 'a Payload', :Token,       :token
 
+  it_behaves_like 'a typecastable parameter', :CardSeq, GMO::PG::Payload::TypecastableInteger
+
   it_behaves_like 'a Request'
 end
 
@@ -32,6 +34,8 @@ RSpec.describe GMO::PG::SaveCard::Response, type: :response do
   it_behaves_like 'a Payload', :ForwardFinal,           :forward_final
   it_behaves_like 'a Payload', :ErrCode,                :err_code
   it_behaves_like 'a Payload', :ErrInfo,                :err_info
+
+  it_behaves_like 'a typecastable parameter', :CardSeq, GMO::PG::Payload::TypecastableInteger
 
   it_behaves_like 'a Response'
 end

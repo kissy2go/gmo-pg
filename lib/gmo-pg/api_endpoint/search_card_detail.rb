@@ -12,7 +12,7 @@ module GMO
         bind_attribute :SitePass, :site_pass
         bind_attribute :MemberID, :member_id
         bind_attribute :SeqMode,  :seq_mode
-        bind_attribute :CardSeq,  :card_seq
+        bind_attribute :CardSeq,  :card_seq,  typecast: :integer
       end
 
       class Response < GMO::PG::GenericResponse

@@ -29,6 +29,9 @@ RSpec.describe GMO::PG::ExecTran::Request, type: :request do
   it_behaves_like 'a Payload', :ClientField3,    :client_field_3
   it_behaves_like 'a Payload', :ClientFieldFlag, :client_field_flag
 
+  it_behaves_like 'a typecastable parameter', :PayTimes, GMO::PG::Payload::TypecastableInteger
+  it_behaves_like 'a typecastable parameter', :CardSeq,  GMO::PG::Payload::TypecastableInteger
+
   it_behaves_like 'a Request'
 end
 
@@ -50,6 +53,9 @@ RSpec.describe GMO::PG::ExecTran::Response, type: :response do
   it_behaves_like 'a Payload', :MD,           :md
   it_behaves_like 'a Payload', :ErrCode,      :err_code
   it_behaves_like 'a Payload', :ErrInfo,      :err_info
+
+  it_behaves_like 'a typecastable parameter', :PayTimes, GMO::PG::Payload::TypecastableInteger
+  it_behaves_like 'a typecastable parameter', :TranDate, GMO::PG::Payload::TypecastableEpochTime
 
   it_behaves_like 'a Response'
 end

@@ -15,6 +15,8 @@ RSpec.describe GMO::PG::SearchCardDetail::Request, type: :request do
   it_behaves_like 'a Payload', :SeqMode,  :seq_mode
   it_behaves_like 'a Payload', :CardSeq,  :card_seq
 
+  it_behaves_like 'a typecastable parameter', :CardSeq, GMO::PG::Payload::TypecastableInteger
+
   it_behaves_like 'a Request'
 end
 

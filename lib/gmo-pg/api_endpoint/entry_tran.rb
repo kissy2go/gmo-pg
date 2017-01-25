@@ -9,8 +9,8 @@ module GMO
         bind_attribute :OrderID,      :order_id
         bind_attribute :JobCd,        :job_cd
         bind_attribute :ItemCode,     :item_code
-        bind_attribute :Amount,       :amount
-        bind_attribute :Tax,          :tax
+        bind_attribute :Amount,       :amount,         typecast: :integer
+        bind_attribute :Tax,          :tax,            typecast: :integer
         bind_attribute :TdFlag,       :td_flag
         bind_attribute :TdTenantName, :td_tenant_name
       end

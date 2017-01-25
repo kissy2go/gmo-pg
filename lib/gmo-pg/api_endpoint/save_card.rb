@@ -8,7 +8,7 @@ module GMO
         bind_attribute :SitePass,    :site_pass
         bind_attribute :MemberID,    :member_id
         bind_attribute :SeqMode,     :seq_mode
-        bind_attribute :CardSeq,     :card_seq
+        bind_attribute :CardSeq,     :card_seq,     typecast: :integer
         bind_attribute :DefaultFlag, :default_flag
         bind_attribute :CardName,    :card_name
         bind_attribute :CardNo,      :card_no
@@ -19,7 +19,7 @@ module GMO
       end
 
       class Response < GMO::PG::GenericResponse
-        bind_attribute :CardSeq,                :card_seq
+        bind_attribute :CardSeq,                :card_seq,                  typecast: :integer
         bind_attribute :CardNo,                 :card_no
         bind_attribute :Forward,                :forward
         bind_attribute :Brand,                  :brand

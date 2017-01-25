@@ -37,5 +37,10 @@ RSpec.describe GMO::PG::SearchTrade::Response, type: :response do
   it_behaves_like 'a Payload', :ErrCode,      :err_code
   it_behaves_like 'a Payload', :ErrInfo,      :err_info
 
+  it_behaves_like 'a typecastable parameter', :ProcessDate, GMO::PG::Payload::TypecastableEpochTime
+  it_behaves_like 'a typecastable parameter', :Amount,      GMO::PG::Payload::TypecastableInteger
+  it_behaves_like 'a typecastable parameter', :Tax,         GMO::PG::Payload::TypecastableInteger
+  it_behaves_like 'a typecastable parameter', :PayTimes,    GMO::PG::Payload::TypecastableInteger
+
   it_behaves_like 'a Response'
 end

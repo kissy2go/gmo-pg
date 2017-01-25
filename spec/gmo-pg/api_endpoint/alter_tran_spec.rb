@@ -15,6 +15,10 @@ RSpec.describe GMO::PG::AlterTran::Request, type: :request do
   it_behaves_like 'a Payload', :Method,     :method
   it_behaves_like 'a Payload', :PayTimes,   :pay_times
 
+  it_behaves_like 'a typecastable parameter', :Amount,   GMO::PG::Payload::TypecastableInteger
+  it_behaves_like 'a typecastable parameter', :Tax,      GMO::PG::Payload::TypecastableInteger
+  it_behaves_like 'a typecastable parameter', :PayTimes, GMO::PG::Payload::TypecastableInteger
+
   it_behaves_like 'a Request'
 end
 
@@ -27,6 +31,8 @@ RSpec.describe GMO::PG::AlterTran::Response, type: :response do
   it_behaves_like 'a Payload', :TranDate,   :tran_date
   it_behaves_like 'a Payload', :ErrCode,    :err_code
   it_behaves_like 'a Payload', :ErrInfo,    :err_info
+
+  it_behaves_like 'a typecastable parameter', :TranDate, GMO::PG::Payload::TypecastableEpochTime
 
   it_behaves_like 'a Response'
 end

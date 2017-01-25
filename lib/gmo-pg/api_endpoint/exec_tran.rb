@@ -8,14 +8,14 @@ module GMO
         bind_attribute :AccessPass,      :access_pass
         bind_attribute :OrderID,         :order_id
         bind_attribute :Method,          :method
-        bind_attribute :PayTimes,        :pay_times
+        bind_attribute :PayTimes,        :pay_times,         typecast: :integer
         bind_attribute :CardNo,          :card_no
         bind_attribute :Expire,          :expire
         bind_attribute :SiteID,          :site_id
         bind_attribute :SitePass,        :site_pass
         bind_attribute :MemberID,        :member_id
         bind_attribute :SeqMode,         :seq_mode
-        bind_attribute :CardSeq,         :card_seq
+        bind_attribute :CardSeq,         :card_seq,          typecast: :integer
         bind_attribute :CardPass,        :card_pass
         bind_attribute :SecurityCode,    :security_code
         bind_attribute :Token,           :token
@@ -34,10 +34,10 @@ module GMO
         bind_attribute :OrderID,      :order_id
         bind_attribute :Forward,      :forward
         bind_attribute :Method,       :method
-        bind_attribute :PayTimes,     :pay_times
+        bind_attribute :PayTimes,     :pay_times,      typecast: :integer
         bind_attribute :Approve,      :approve
         bind_attribute :TranID,       :tran_id
-        bind_attribute :TranDate,     :tran_date
+        bind_attribute :TranDate,     :tran_date,      typecast: :epoch_time
         bind_attribute :CheckString,  :check_string
         bind_attribute :ClientField1, :client_field_1
         bind_attribute :ClientField2, :client_field_2

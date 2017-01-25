@@ -15,6 +15,9 @@ RSpec.describe GMO::PG::EntryTran::Request, type: :request do
   it_behaves_like 'a Payload', :TdFlag,       :td_flag
   it_behaves_like 'a Payload', :TdTenantName, :td_tenant_name
 
+  it_behaves_like 'a typecastable parameter', :Amount, GMO::PG::Payload::TypecastableInteger
+  it_behaves_like 'a typecastable parameter', :Tax,    GMO::PG::Payload::TypecastableInteger
+
   it_behaves_like 'a Request'
 end
 

@@ -16,7 +16,7 @@ module GMO
       end
 
       class Response < GMO::PG::GenericResponse
-        bind_attribute :CardSeq, :card_seq
+        bind_attribute :CardSeq, :card_seq, typecast: :integer
         bind_attribute :CardNo,  :card_no
         bind_attribute :Forward, :forward
       end

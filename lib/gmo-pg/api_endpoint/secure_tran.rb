@@ -12,10 +12,10 @@ module GMO
         bind_attribute :OrderID,      :order_id
         bind_attribute :Forward,      :forward
         bind_attribute :Method,       :method
-        bind_attribute :PayTimes,     :pay_times
+        bind_attribute :PayTimes,     :pay_times,      typecast: :integer
         bind_attribute :Approve,      :approve
         bind_attribute :TranID,       :tran_id
-        bind_attribute :TranDate,     :tran_date
+        bind_attribute :TranDate,     :tran_date,      typecast: :epoch_time
         bind_attribute :CheckString,  :check_string
         bind_attribute :ClientField1, :client_field_1
         bind_attribute :ClientField2, :client_field_2

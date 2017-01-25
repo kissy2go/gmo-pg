@@ -25,5 +25,7 @@ RSpec.describe GMO::PG::TradedCard::Response, type: :response do
   it_behaves_like 'a Payload', :ErrCode, :err_code
   it_behaves_like 'a Payload', :ErrInfo, :err_info
 
+  it_behaves_like 'a typecastable parameter', :CardSeq, GMO::PG::Payload::TypecastableInteger
+
   it_behaves_like 'a Response'
 end
