@@ -45,11 +45,13 @@ RSpec.describe GMO::PG::Payload do
 
   describe '#payload' do
     it 'returns frozen hash' do
+      time = Time.new(2017, 1, 2, 12, 34, 56)
+
       payload = ClassInheritedPayload.new(
         ruby_attr_1:      'value1',
         GMOParam2:        'value2',
         integer_attr:     123.456,
-        epoch_time_attr:  Time.new(2017, 1, 2, 12, 34, 56).to_i.to_s,
+        epoch_time_attr:  time.to_i.to_s,
         custom_type_attr: '123',
         UndefParam:       'value3',
       )
@@ -57,7 +59,7 @@ RSpec.describe GMO::PG::Payload do
         GMOParam1:       'value1',
         GMOParam2:       'value2',
         IntegerParam:    '123',
-        EpochTimeParam:  '20170102123456',
+        EpochTimeParam:  time.localtime('+09:00').strftime('%Y%m%d%H%M%S'),
         CustomTypeParam: 'called #to_payload with 123',
         UndefParam:      'value3',
       )
@@ -66,11 +68,13 @@ RSpec.describe GMO::PG::Payload do
 
   describe '#to_hash' do
     it 'returns hash' do
+      time = Time.new(2017, 1, 2, 12, 34, 56)
+
       payload = ClassInheritedPayload.new(
         ruby_attr_1:      'value1',
         GMOParam2:        'value2',
         integer_attr:     123.456,
-        epoch_time_attr:  Time.new(2017, 1, 2, 12, 34, 56).to_i.to_s,
+        epoch_time_attr:  time.to_i.to_s,
         custom_type_attr: '123',
         UndefParam:       'value3',
       )
@@ -78,7 +82,7 @@ RSpec.describe GMO::PG::Payload do
         ruby_attr_1:      'value1',
         ruby_attr_2:      'value2',
         integer_attr:     123,
-        epoch_time_attr:  Time.new(2017, 1, 2, 12, 34, 56).to_i,
+        epoch_time_attr:  time.to_i,
         custom_type_attr: 'called #to_attribute with 123',
         UndefParam:       'value3',
       )

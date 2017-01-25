@@ -156,11 +156,13 @@ describe GMO::PG::Payload::TypecastableEpochTime do
   describe '#to_attribute' do
     context 'with convertible value' do
       it 'returns integer value' do
-        epoch_time = Time.new(2017, 1, 2, 12, 34, 56).localtime('+09:00').to_i
-        expect(GMO::PG::Payload::TypecastableEpochTime.new(Time.at(epoch_time)).to_attribute).to eq epoch_time
-        expect(GMO::PG::Payload::TypecastableEpochTime.new(DateTime.new(2017, 1, 2, 12, 34, 56)).to_attribute).to eq epoch_time
-        expect(GMO::PG::Payload::TypecastableEpochTime.new('20170102123456').to_attribute).to eq epoch_time
-        expect(GMO::PG::Payload::TypecastableEpochTime.new(epoch_time).to_attribute).to eq epoch_time
+        in_timezone 'UTC' do
+          epoch_time = Time.new(2017, 1, 2, 12, 34, 56).to_i
+          expect(GMO::PG::Payload::TypecastableEpochTime.new(Time.at(epoch_time)).to_attribute).to eq epoch_time
+          expect(GMO::PG::Payload::TypecastableEpochTime.new(DateTime.new(2017, 1, 2, 12, 34, 56)).to_attribute).to eq epoch_time
+          expect(GMO::PG::Payload::TypecastableEpochTime.new('20170102123456').to_attribute).to eq epoch_time
+          expect(GMO::PG::Payload::TypecastableEpochTime.new(epoch_time).to_attribute).to eq epoch_time
+        end
       end
     end
 
@@ -174,11 +176,14 @@ describe GMO::PG::Payload::TypecastableEpochTime do
   describe '#to_payload' do
     context 'with convertible value' do
       it 'returns string value' do
-        epoch_time = Time.new(2017, 1, 2, 12, 34, 56).localtime('+09:00').to_i
-        expect(GMO::PG::Payload::TypecastableEpochTime.new(Time.at(epoch_time)).to_payload).to eq '20170102123456'
-        expect(GMO::PG::Payload::TypecastableEpochTime.new(DateTime.new(2017, 1, 2, 12, 34, 56)).to_payload).to eq '20170102123456'
-        expect(GMO::PG::Payload::TypecastableEpochTime.new('20170102123456').to_payload).to eq '20170102123456'
-        expect(GMO::PG::Payload::TypecastableEpochTime.new(epoch_time).to_payload).to eq '20170102123456'
+        in_timezone 'UTC' do
+          epoch_time = Time.new(2017, 1, 2, 12, 34, 56).to_i
+          expected_value = Time.at(epoch_time).localtime('+09:00').strftime('%Y%m%d%H%M%S')
+          expect(GMO::PG::Payload::TypecastableEpochTime.new(Time.at(epoch_time)).to_payload).to eq expected_value
+          expect(GMO::PG::Payload::TypecastableEpochTime.new(DateTime.new(2017, 1, 2, 12, 34, 56)).to_payload).to eq expected_value
+          expect(GMO::PG::Payload::TypecastableEpochTime.new('20170102123456').to_payload).to eq expected_value
+          expect(GMO::PG::Payload::TypecastableEpochTime.new(epoch_time).to_payload).to eq expected_value
+        end
       end
     end
 
@@ -187,5 +192,15 @@ describe GMO::PG::Payload::TypecastableEpochTime do
         expect(GMO::PG::Payload::TypecastableEpochTime.new(:value).to_payload).to eq 'value'
       end
     end
+  end
+
+  private
+
+  def in_timezone(timezone)
+    old_timezone = ENV['TZ']
+    ENV['TZ'] = timezone
+    yield if block_given?
+  ensure
+    ENV['TZ'] = old_timezone
   end
 end

@@ -75,7 +75,7 @@ module GMO
             else
               Time.strptime(@value, format) rescue return super
             end
-          time.localtime(TIME_ZONE).to_i rescue super
+          time.to_i rescue super
         end
 
         def to_payload
