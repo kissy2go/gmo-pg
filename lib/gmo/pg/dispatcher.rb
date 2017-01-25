@@ -1,4 +1,4 @@
-require 'gmo-pg/dispatcher/shorthands'
+require 'gmo/pg/dispatcher/shorthands'
 
 module GMO
   module PG
