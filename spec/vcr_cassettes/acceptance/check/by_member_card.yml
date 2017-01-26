@@ -5,7 +5,7 @@ http_interactions:
     uri: https://pt01.mul-pay.jp/payment/SaveMember.idPass
     body:
       encoding: US-ASCII
-      string: SiteID=<SiteID>&SitePass=<SitePass>&MemberID=MEM-xQWjAVLf9vUgsFGR7c3lMw5XiBO_pq8ykTd1mePuCINtr6aKDESh.ZzJ
+      string: SiteID=<SiteID>&SitePass=<SitePass>&MemberID=MEM-xfWqU3_tE4OjwCzDV17HG0%40k28SKmMvchd5AyZp9-NsJBI.uoXFnRiTl
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -21,7 +21,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Mon, 23 Jan 2017 11:11:25 GMT
+      - Thu, 26 Jan 2017 02:36:15 GMT
       Content-Type:
       - text/plain;charset=Windows-31J
       Transfer-Encoding:
@@ -30,15 +30,15 @@ http_interactions:
       - close
     body:
       encoding: UTF-8
-      string: MemberID=MEM-xQWjAVLf9vUgsFGR7c3lMw5XiBO_pq8ykTd1mePuCINtr6aKDESh.ZzJ
-    http_version: 
-  recorded_at: Mon, 23 Jan 2017 11:11:25 GMT
+      string: MemberID=MEM-xfWqU3_tE4OjwCzDV17HG0@k28SKmMvchd5AyZp9-NsJBI.uoXFnRiTl
+    http_version:
+  recorded_at: Thu, 26 Jan 2017 02:36:15 GMT
 - request:
     method: post
     uri: https://pt01.mul-pay.jp/payment/SaveCard.idPass
     body:
       encoding: US-ASCII
-      string: SiteID=<SiteID>&SitePass=<SitePass>&MemberID=MEM-xQWjAVLf9vUgsFGR7c3lMw5XiBO_pq8ykTd1mePuCINtr6aKDESh.ZzJ&SeqMode=1&CardNo=4111111111111111&Expire=1901
+      string: SiteID=<SiteID>&SitePass=<SitePass>&MemberID=MEM-xfWqU3_tE4OjwCzDV17HG0%40k28SKmMvchd5AyZp9-NsJBI.uoXFnRiTl&SeqMode=1&CardNo=4111111111111111&Expire=1901
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -54,7 +54,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Mon, 23 Jan 2017 11:11:26 GMT
+      - Thu, 26 Jan 2017 02:36:18 GMT
       Content-Type:
       - text/plain;charset=Windows-31J
       Transfer-Encoding:
@@ -64,14 +64,14 @@ http_interactions:
     body:
       encoding: UTF-8
       string: CardSeq=0&CardNo=*************111&Forward=2a99662
-    http_version: 
-  recorded_at: Mon, 23 Jan 2017 11:11:26 GMT
+    http_version:
+  recorded_at: Thu, 26 Jan 2017 02:36:18 GMT
 - request:
     method: post
     uri: https://pt01.mul-pay.jp/payment/EntryTran.idPass
     body:
       encoding: US-ASCII
-      string: ShopID=<ShopID>&ShopPass=<ShopPass>&OrderID=OID-SlTpiNb1aCUKrOnyJPoVGkh&JobCd=CHECK
+      string: ShopID=<ShopID>&ShopPass=<ShopPass>&OrderID=OID-cTslhbQVKX1ZrpAGUDum8Wa&JobCd=CHECK
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -87,7 +87,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Mon, 23 Jan 2017 11:11:26 GMT
+      - Thu, 26 Jan 2017 02:36:18 GMT
       Content-Type:
       - text/plain;charset=Windows-31J
       Transfer-Encoding:
@@ -96,15 +96,15 @@ http_interactions:
       - close
     body:
       encoding: UTF-8
-      string: AccessID=bb9ef1ec9128f3eb917039e73cff8d5c&AccessPass=8061f2c8eed66513a1ad136264b78343
-    http_version: 
-  recorded_at: Mon, 23 Jan 2017 11:11:26 GMT
+      string: AccessID=e67c65fe5a3f2f5d4e7c9c169745cdb0&AccessPass=9853765f2e948d035eee5b608b2656de
+    http_version:
+  recorded_at: Thu, 26 Jan 2017 02:36:19 GMT
 - request:
     method: post
     uri: https://pt01.mul-pay.jp/payment/ExecTran.idPass
     body:
       encoding: US-ASCII
-      string: AccessID=bb9ef1ec9128f3eb917039e73cff8d5c&AccessPass=8061f2c8eed66513a1ad136264b78343&OrderID=OID-SlTpiNb1aCUKrOnyJPoVGkh&SiteID=<SiteID>&SitePass=<SitePass>&MemberID=MEM-xQWjAVLf9vUgsFGR7c3lMw5XiBO_pq8ykTd1mePuCINtr6aKDESh.ZzJ&SeqMode=1&CardSeq=0&SecurityCode=123
+      string: AccessID=e67c65fe5a3f2f5d4e7c9c169745cdb0&AccessPass=9853765f2e948d035eee5b608b2656de&OrderID=OID-cTslhbQVKX1ZrpAGUDum8Wa&SiteID=<SiteID>&SitePass=<SitePass>&MemberID=MEM-xfWqU3_tE4OjwCzDV17HG0%40k28SKmMvchd5AyZp9-NsJBI.uoXFnRiTl&SeqMode=1&CardSeq=0&SecurityCode=123
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -120,7 +120,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Mon, 23 Jan 2017 11:11:28 GMT
+      - Thu, 26 Jan 2017 02:36:19 GMT
       Content-Type:
       - text/plain;charset=Windows-31J
       Transfer-Encoding:
@@ -129,7 +129,7 @@ http_interactions:
       - close
     body:
       encoding: UTF-8
-      string: ACS=0&OrderID=OID-SlTpiNb1aCUKrOnyJPoVGkh&Forward=2a99662&Method=&PayTimes=&Approve=1317992&TranID=1701232011111111111111874452&TranDate=20170123201128&CheckString=87f6023ada4703ff389ab651f74add18
-    http_version: 
-  recorded_at: Mon, 23 Jan 2017 11:11:29 GMT
+      string: ACS=0&OrderID=OID-cTslhbQVKX1ZrpAGUDum8Wa&Forward=2a99662&Method=&PayTimes=&Approve=1391525&TranID=1701261136111111111111875225&TranDate=20170126113619&CheckString=49532964f1e5db586f89a0bb597a5995
+    http_version:
+  recorded_at: Thu, 26 Jan 2017 02:36:19 GMT
 recorded_with: VCR 3.0.3

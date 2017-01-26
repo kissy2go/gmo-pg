@@ -69,10 +69,11 @@ module GMO
       def handle_api_error(request, response)
         return response unless response.error?
 
-        raise response.errors.first.to_error.tap do |e|
-          e.request  = request
-          e.response = response
-        end
+        e = response.errors.first.to_error
+        e.request  = request
+        e.response = response
+
+        raise e
       end
     end
   end

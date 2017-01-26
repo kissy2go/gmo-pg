@@ -25,7 +25,7 @@ RSpec.configure do |c|
 
   # Turnip configurations
   c.before type: :feature do
-    GMO::PG.base_url = 'https://pt01.mul-pay.jp'
+    GMO::PG.base_url = ENV['GMO_PG_BASE_URL']
 
     c.include FeatureSteps
   end

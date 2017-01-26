@@ -22,7 +22,7 @@ module FeatureSteps
   def vcr_options(overrides = {})
     {
       re_record_interval: 60 * 60 * 24 * 7, # 7 days
-      match_requests_on: %i{ method uri },
+      match_requests_on: %i{ method path body },
       allow_unused_http_interactions: true,
       record: :new_episodes,
     }.merge(overrides)
