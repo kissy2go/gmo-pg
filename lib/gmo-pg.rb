@@ -4,6 +4,7 @@ require 'gmo-pg/http_resource'
 require 'gmo-pg/api_endpoint'
 require 'gmo-pg/dispatcher'
 require 'gmo-pg/error'
+require 'gmo-pg/util'
 
 module GMO
   module PG
