@@ -1,4 +1,4 @@
-require 'gmo/pg/http_resource/payload/typecast'
+require 'gmo-pg/http_resource/payload/typecast'
 
 module GMO
   module PG
