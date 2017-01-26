@@ -34,11 +34,11 @@ module GMO
         end
 
         def to_attribute
-          @value.dup
+          @value
         end
 
         def to_payload
-          @value.dup.to_s
+          @value.to_s
         end
 
         def ==(other)

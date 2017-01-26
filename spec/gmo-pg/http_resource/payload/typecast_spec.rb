@@ -88,13 +88,11 @@ describe GMO::PG::Payload::TypecastableValue do
   describe '#to_attribute' do
     subject { typecast_value.to_attribute }
     it { is_expected.to eq value }
-    it { is_expected.not_to equal value }
   end
 
   describe '#to_payload' do
     subject { typecast_value.to_payload }
     it { is_expected.to eq value }
-    it { is_expected.not_to equal value }
   end
 
   describe '#==' do
