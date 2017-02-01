@@ -75,12 +75,12 @@ RSpec.describe GMO::PG::Dispatcher do
       end
 
       context 'when response has error' do
-        let(:response) { Dummy::Response.new(err_code: 'E00|E01', err_info: 'E00000000|E01010001') }
+        let(:response) { Dummy::Response.new(err_code: 'G02|E00', err_info: '42G020000|E00000000') }
 
         context 'when :raise_on_api_error option is truthy value' do
           before { dispatcher.raise_on_api_error = true }
           it 'raises first error' do
-            expect { subject }.to raise_error GMO::PG::Error
+            expect { subject }.to raise_error GMO::PG::CardError, 'Card error (G02|42G020000)'
           end
         end
 

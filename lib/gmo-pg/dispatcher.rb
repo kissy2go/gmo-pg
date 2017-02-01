@@ -33,7 +33,7 @@ module GMO
       end
 
       def connect
-        handle_http_error do
+        handle_error do
           @http.start { yield self if block_given? }
         end
       end
@@ -42,13 +42,13 @@ module GMO
         req = Net::HTTP::Post.new(request.path)
         req.body = GMO::PG::Payload.encode(request.payload)
 
-        handle_http_error do
+        handle_error do
           res = @http.request(req)
           case res
           when Net::HTTPSuccess
             payload = GMO::PG::Payload.decode(res.body)
             response = request.class.corresponding_response_class.new(payload)
-            handle_api_error request, response if @raise_on_api_error
+            raise_api_error request, response if @raise_on_api_error && response.error?
             response
           else
             res.value # raise Net::XxxError
@@ -58,17 +58,17 @@ module GMO
 
       private
 
-      def handle_http_error
+      def handle_error
         begin
           yield if block_given?
+        rescue GMO::PG::Error
+          raise
         rescue => e
           raise GMO::PG::Error.from_http_error(e)
         end
       end
 
-      def handle_api_error(request, response)
-        return response unless response.error?
-
+      def raise_api_error(request, response)
         e = response.errors.first.to_error
         e.request  = request
         e.response = response
