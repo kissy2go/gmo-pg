@@ -48,7 +48,7 @@ module GMO
           when Net::HTTPSuccess
             payload = GMO::PG::Payload.decode(res.body)
             response = request.class.corresponding_response_class.new(payload)
-            raise_api_error request, response if @raise_on_api_error && response.error?
+            raise response.errors.first.to_error if @raise_on_api_error && response.error?
             response
           else
             res.value # raise Net::XxxError
@@ -66,14 +66,6 @@ module GMO
         rescue => e
           raise GMO::PG::Error.from_http_error(e)
         end
-      end
-
-      def raise_api_error(request, response)
-        e = response.errors.first.to_error
-        e.request  = request
-        e.response = response
-
-        raise e
       end
     end
   end

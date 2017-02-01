@@ -1,7 +1,7 @@
 module GMO
   module PG
     class Errors
-      class Record < Struct.new(:err_code, :err_info)
+      class Error < Struct.new(:err_code, :err_info)
         def to_error
           GMO::PG::Error.from_api_error(err_code, err_info)
         end
@@ -20,7 +20,7 @@ module GMO
         return to_enum unless block_given?
         return nil if @err_code.nil? && @err_info.nil?
         @err_code.zip(@err_info).each do |(err_code, err_info)|
-          yield Record.new(err_code, err_info)
+          yield Error.new(err_code, err_info)
         end
       end
     end
