@@ -27,7 +27,7 @@ module GMO
           # E0120: Invalid SitePass
           # E0121: Invalid SiteID and/or SitePass
           GMO::PG::AuthorizationError.new("Authorization error (#{err_code}|#{err_info})")
-        when /\AE01(17|18|25|26|27|46|48)/, /\AE41/
+        when /\AE01(17|18|25|26|27|46|48)/, /\A(E41|42G)/
           # E0117: Invalid CardNo
           # E0118: Invalid Expire
           # E0125: Invalid CardPass
@@ -36,11 +36,13 @@ module GMO
           # E0146: Invalid SecurityCode
           # E0148: Invalid HolderName
           # E41  : Incorrect card
+          # 42G  : Error on Card brand
           GMO::PG::CardError.new("Card error (#{err_code}|#{err_info})")
-        when /\A(E61|E91|E92)/
+        when /\A(E61|E91|E92|42C)/
           # E61: Shop configuration error
           # E91: System error
           # E92: Temporary unavailable
+          # 42C: Error on CAFIS or Card brand
           GMO::PG::APIServerError.new("Temporary unavailable (#{err_code}|#{err_info})")
         else
           GMO::PG::APIError.new("API error (#{err_code}|#{err_info})")
