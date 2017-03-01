@@ -5,7 +5,7 @@ http_interactions:
     uri: https://pt01.mul-pay.jp/payment/EntryTran.idPass
     body:
       encoding: US-ASCII
-      string: ShopID=<ShopID>&ShopPass=<ShopPass>&OrderID=OID-0PuBTYjD37UK45f1IXSoLgy&JobCd=CAPTURE&Amount=1980&TdFlag=0
+      string: ShopID=<ShopID>&ShopPass=<ShopPass>&OrderID=OID-l1cYEfboxQBusBJD7dbfSSn&JobCd=CAPTURE&Amount=1980&TdFlag=0
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -21,7 +21,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Thu, 26 Jan 2017 02:36:07 GMT
+      - Wed, 01 Mar 2017 10:41:05 GMT
       Content-Type:
       - text/plain;charset=Windows-31J
       Transfer-Encoding:
@@ -30,15 +30,15 @@ http_interactions:
       - close
     body:
       encoding: UTF-8
-      string: AccessID=086ccb6c85da57baec5d88e8564b819a&AccessPass=d8c092817df3b2a55857e23f9be09b52
-    http_version:
-  recorded_at: Thu, 26 Jan 2017 02:36:08 GMT
+      string: AccessID=01a8d4250a961ec6bee9e83c0688f380&AccessPass=d00ee1b7fe0fc3032477548c45a03297
+    http_version: 
+  recorded_at: Wed, 01 Mar 2017 10:41:05 GMT
 - request:
     method: post
     uri: https://pt01.mul-pay.jp/payment/ExecTran.idPass
     body:
       encoding: US-ASCII
-      string: AccessID=086ccb6c85da57baec5d88e8564b819a&AccessPass=d8c092817df3b2a55857e23f9be09b52&OrderID=OID-0PuBTYjD37UK45f1IXSoLgy&Method=1&CardNo=4111111111111111&Expire=1901&SecurityCode=123
+      string: AccessID=01a8d4250a961ec6bee9e83c0688f380&AccessPass=d00ee1b7fe0fc3032477548c45a03297&OrderID=OID-l1cYEfboxQBusBJD7dbfSSn&Method=1&CardNo=4111111111111111&Expire=1901&SecurityCode=123
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -54,7 +54,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Thu, 26 Jan 2017 02:36:10 GMT
+      - Wed, 01 Mar 2017 10:41:07 GMT
       Content-Type:
       - text/plain;charset=Windows-31J
       Transfer-Encoding:
@@ -63,7 +63,7 @@ http_interactions:
       - close
     body:
       encoding: UTF-8
-      string: ACS=0&OrderID=OID-0PuBTYjD37UK45f1IXSoLgy&Forward=2a99662&Method=1&PayTimes=&Approve=1391511&TranID=1701261136111111111111875211&TranDate=20170126113610&CheckString=431254ae437e624e4b8aa2f741df3822
-    http_version:
-  recorded_at: Thu, 26 Jan 2017 02:36:10 GMT
+      string: ACS=0&OrderID=OID-l1cYEfboxQBusBJD7dbfSSn&Forward=2a99662&Method=1&PayTimes=&Approve=2074144&TranID=1703011941111111111111875760&TranDate=20170301194107&CheckString=4e4b2af50cff12c37d52c40ae46dad1f
+    http_version: 
+  recorded_at: Wed, 01 Mar 2017 10:41:07 GMT
 recorded_with: VCR 3.0.3
