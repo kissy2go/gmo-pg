@@ -27,16 +27,17 @@ module GMO
           # E0120: Invalid SitePass
           # E0121: Invalid SiteID and/or SitePass
           GMO::PG::AuthorizationError.new('Authorization error', err_code, err_info)
-        when /\AE01(17|18|25|26|27|46|48)/, /\A(E41|42G)/
-          # E0117: Invalid CardNo
-          # E0118: Invalid Expire
-          # E0125: Invalid CardPass
-          # E0126: Invalid Method
-          # E0127: Invalid PayTimes
-          # E0146: Invalid SecurityCode
-          # E0148: Invalid HolderName
-          # E41  : Incorrect card
-          # 42G  : Error on Card brand
+        when /\AE01(17|18|25|26|27|46|48)/, /\A(E41|42G)/, /\AE61010002\Z/
+          # E0117    : Invalid CardNo
+          # E0118    : Invalid Expire
+          # E0125    : Invalid CardPass
+          # E0126    : Invalid Method
+          # E0127    : Invalid PayTimes
+          # E0146    : Invalid SecurityCode
+          # E0148    : Invalid HolderName
+          # E41      : Incorrect card
+          # 42G      : Error on Card brand
+          # E61010002: Incorrect card or invalid CardNo
           GMO::PG::CardError.new('Card error', err_code, err_info)
         when /\A(E61|E91|E92|42C)/
           # E61: Shop configuration error

@@ -138,6 +138,12 @@ describe GMO::PG::Error do
         it { is_expected.to be_an_instance_of GMO::PG::CardError }
       end
 
+      context 'with incorrect card or invalid CardNo error' do
+        let(:err_code) { 'E61' }
+        let(:err_info) { 'E61010002' }
+        it { is_expected.to be_an_instance_of GMO::PG::CardError }
+      end
+
       context 'with configuration error' do
         let(:err_code) { 'E61' }
         let(:err_info) { 'E61010001' }
