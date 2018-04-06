@@ -14,6 +14,7 @@ module GMO
 
     class << self
       attr_accessor :base_url, :open_timeout, :read_timeout, :proxy, :raise_on_api_error
+      attr_accessor :site_id, :site_pass, :shop_id, :shop_pass
     end
 
     def self.connect(base_url = self.base_url, &block)

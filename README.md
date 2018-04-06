@@ -26,6 +26,29 @@ Or install it yourself as:
 
 ## Usage
 
+```ruby
+charge = GMO::PG::Charge.create(
+  amount: ...,
+  card: {
+    number:    '...',
+    exp_month: ...,
+    exp_year:  ...,
+    cvc:       '...',
+    name:      '',
+  }
+)
+
+charge = GMO::PG::Charge.create(
+  amount: ...,
+  card:   '...',
+)
+
+charge = GMO::PG::Charge.create(
+  amount: ...,
+  source: '...', # member_id
+)
+```
+
 For example, to check card availability, like this:
 
 ```ruby
