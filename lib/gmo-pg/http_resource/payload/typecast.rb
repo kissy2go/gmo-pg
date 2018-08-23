@@ -72,14 +72,16 @@ module GMO
               @value
             when DateTime
               Time.new(@value.year, @value.month, @value.day, @value.hour, @value.min, @value.sec)
+            when String
+              Time.strptime("#{@value} #{TIME_ZONE}", "#{FORMAT} %:z") rescue super
             else
-              Time.strptime(@value, format) rescue return super
+              super
             end
           time.to_i rescue super
         end
 
         def to_payload
-          Time.at(to_attribute).localtime(TIME_ZONE).strftime(format) rescue super
+          Time.at(to_attribute).strftime(format) rescue super
         end
       end
     end
